@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class Adapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         Log.d(TAG, "insdie getView() : " + i);
         ViewHolder viewHolder;
         if (view == null) {
@@ -69,6 +70,26 @@ public class Adapter extends BaseAdapter {
         viewHolder.name.setText(ma.getName().toString());
         viewHolder.age.setText(String.valueOf(ma.getAge()));
         viewHolder.selected.setChecked(ma.isSelected());
+
+        viewHolder.selected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CheckBox checkBox= (CheckBox) view;
+                Model model= (Model) getItem(i);
+                model.setSelected(checkBox.isChecked());
+                notifyDataSetChanged();
+            }
+        });
+
+ //            viewHolder.selected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                    Model model= (Model) getItem(i);
+//                    model.setSelected(b);
+//                    notifyDataSetChanged();
+//                }
+//            });
+
 
         return view;
     }
